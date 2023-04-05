@@ -19,6 +19,8 @@
  *
  */
 
+#include <vector>
+
 #include "JNIBase.h"
 #include "ClassLoader.h"
 #include "BroadcastReceiver.h"
@@ -60,6 +62,7 @@ public:
   static CJNIFile getCacheDir();
   static CJNIFile getDir(const std::string &path, int mode);
   static CJNIFile getExternalFilesDir(const std::string &path);
+  static std::vector<CJNIFile> getExternalFilesDirs(const std::string &type);
   static CJNIContentResolver getContentResolver();
   static CJNIWindow getWindow();
   static CJNIResourcesTheme getTheme();

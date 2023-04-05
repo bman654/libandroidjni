@@ -236,6 +236,22 @@ CJNIFile CJNIContext::getExternalFilesDir(const std::string &path)
     jcast<jhstring>(path));
 }
 
+std::vector<CJNIFile> CJNIContext::getExternalFilesDirs(const std::string &type)
+{
+  JNIEnv *env = xbmc_jnienv();
+  jhobjectArray oFiles = call_method<jhobjectArray>(m_context,
+    "getExternalFilesDirs", "(Ljava/lang/String;)[Ljava/io/File;",
+    jcast<jhstring>(type));
+  
+  jsize size = env->GetArrayLength(oFiles.get());
+  std::vector<CJNIFile> files;
+  files.reserve(size);
+  for(int i = 0; i < size; i++)
+    files.push_back(CJNIFile(jhobject(env->GetObjectArrayElement(oFiles.get(), i))));
+
+  return files;
+}
+
 CJNIContentResolver CJNIContext::getContentResolver()
 {
   return call_method<jhobject>(m_context,
